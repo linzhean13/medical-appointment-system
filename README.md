@@ -89,15 +89,12 @@ medical-appointment-system/
 
 #### 1. 查詢醫師班表 (免登入開放功能)
 > 任何人皆可於系統首頁直接瀏覽各醫師的門診時間與當前預約狀態。
-![查詢醫師班表]<img width="1920" height="1020" alt="一般登入-查詢醫師班表" src="https://github.com/user-attachments/assets/549cc943-db38-47b1-8351-3fcc4c7b41e5" />
 
 #### 2. 查詢預約狀態 (登入後預設首頁)
 > 病患登入後會自動跳轉至此頁面，可即時追蹤所有掛號紀錄的處理狀態（如 pending, confirmed），並可執行取消預約。
-![預約狀態與取消]<img width="1920" height="1020" alt="一般登入畫面" src="https://github.com/user-attachments/assets/c8030278-2804-46d1-8290-30a8e3ee38c2" />
 
 #### 3. 線上預約功能 (需登入)
 > 驗證身分後方可使用的核心功能，病患可在此選擇指定的醫師與時段進行掛號。
-![線上預約]<img width="1920" height="1020" alt="一般登入-線上預約" src="https://github.com/user-attachments/assets/52325a67-0cd9-4b6a-99db-40dd3473a49b" />
 <table>
   <tr>
     <td width="50%">
@@ -120,16 +117,24 @@ medical-appointment-system/
 </table>
 <table>
   <tr>
-    <td width="33%">
-      <b>1. 查詢醫師班表</b><br>
+    <td width="50%">
+      <b>1. 系統登入 (病患端)</b><br>
+      👉 測試帳號：user25@example.com / 密碼：pass123<br>
+      <img src="https://github.com/user-attachments/assets/e89af774-69b0-4ef8-aa10-462646372c3f" width="100%">
+    </td>
+    <td width="50%">
+      <b>2. 查詢醫師班表 (免登入開放功能)</b><br>
+      <br>
       <img src="https://github.com/user-attachments/assets/549cc943-db38-47b1-8351-3fcc4c7b41e5" width="100%">
     </td>
-    <td width="33%">
-      <b>2. 查詢預約狀態</b><br>
+  </tr>
+  <tr>
+    <td width="50%">
+      <b>3. 查詢預約狀態 (登入後預設首頁)</b><br>
       <img src="https://github.com/user-attachments/assets/c8030278-2804-46d1-8290-30a8e3ee38c2" width="100%">
     </td>
-    <td width="33%">
-      <b>3. 線上預約功能</b><br>
+    <td width="50%">
+      <b>4. 線上預約功能 (需登入)</b><br>
       <img src="https://github.com/user-attachments/assets/52325a67-0cd9-4b6a-99db-40dd3473a49b" width="100%">
     </td>
   </tr>
