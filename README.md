@@ -19,7 +19,7 @@
 ## 🗄️ 資料庫設計 (Database Design)
 本系統的核心在於穩健的資料庫架構。以下為本系統的實體關聯圖 (ER Diagram)：
 
-<img width="1321" height="897" alt="螢幕擷取畫面 2026-03-17 041507" src="https://github.com/user-attachments/assets/d2c5afdf-d899-4b01-ac50-3556e535970a" />
+<img width="700" height="897" alt="螢幕擷取畫面 2026-03-17 041507" src="https://github.com/user-attachments/assets/d2c5afdf-d899-4b01-ac50-3556e535970a" />
 
 
 系統透過角色區分機制（Role-based），精簡實體並提升查詢效率，主要由以下四張資料表構成：
