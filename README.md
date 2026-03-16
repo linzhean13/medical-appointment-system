@@ -1,5 +1,3 @@
-# medical-appointment-system
-大學資料庫專題：醫療預約系統 (Medical Appointment System)
 # 🏥 醫療預約系統 (Medical Appointment System)
 
 > 這是大學資料庫專題作品，旨在建立一個高效、易用的醫療預約與管理系統。
@@ -40,8 +38,8 @@ medical-appointment-system/
 │   └── ... (其他前後端程式碼)
 │
 ├── database/                           # 資料庫建置檔
-│   ├── medical_appointment_system.sql  # 🌟 完整版資料庫 (含結構與測試資料，請匯入此檔)
-│   └── 建立資料庫.sql                  # 備用檔 (僅含資料表結構，預防誤刪用)
+│   ├── medical_appointment_system.sql  # 完整版資料庫 (含結構與測試資料，請匯入此檔)
+│   └── 建立資料庫.sql                   # 備用檔 (僅含資料表結構，預防誤刪用)
 │
 └── docs/                               # 專案文件
     ├── presentation.pdf                # 專題上台簡報
@@ -100,7 +98,26 @@ medical-appointment-system/
 #### 3. 線上預約功能 (需登入)
 > 驗證身分後方可使用的核心功能，病患可在此選擇指定的醫師與時段進行掛號。
 ![線上預約]<img width="1920" height="1020" alt="一般登入-線上預約" src="https://github.com/user-attachments/assets/52325a67-0cd9-4b6a-99db-40dd3473a49b" />
----
+<table>
+  <tr>
+    <td width="50%">
+      <b>1. 查詢醫師班表 (免登入開放功能)</b><br>
+      <img src="https://github.com/user-attachments/assets/549cc943-db38-47b1-8351-3fcc4c7b41e5" width="100%">
+    </td>
+    <td width="50%">
+      <b>2. 查詢預約狀態 (登入後預設首頁)</b><br>
+      <img src="https://github.com/user-attachments/assets/c8030278-2804-46d1-8290-30a8e3ee38c2" width="100%">
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <b>3. 線上預約功能 (需登入)</b><br>
+      <img src="https://github.com/user-attachments/assets/52325a67-0cd9-4b6a-99db-40dd3473a49b" width="100%">
+    </td>
+    <td width="50%">
+      </td>
+  </tr>
+</table>
 
 ### 👨‍⚕️ 醫師端功能 (Doctor Dashboard)
 
