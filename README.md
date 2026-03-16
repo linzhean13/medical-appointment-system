@@ -22,6 +22,7 @@
 本系統的核心在於穩健的資料庫架構。以下為本系統的實體關聯圖 (ER Diagram)：
 
 ![在此放置 ER 圖截圖](你的圖片路徑)
+<img width="1321" height="897" alt="螢幕擷取畫面 2026-03-17 041507" src="https://github.com/user-attachments/assets/db883f35-5730-4e3f-8041-a27894fb9808" />
 
 主要資料表包含：
 * `Users`: 儲存使用者帳號與加密密碼。
