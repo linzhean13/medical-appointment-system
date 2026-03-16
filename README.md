@@ -15,19 +15,20 @@
 
 ## ✨ 核心功能
 * **病患端：** 註冊登入、線上預約掛號、取消預約、查詢看診歷史。
-* **診所端：** 醫師排班管理、病患資料維護、看診進度更新。
-* **資料庫：** 具備完整的正規化設計，確保資料一致性與完整性。
+* **診所端（醫師/管理員）：** 醫師排班管理、看診進度更新、每日預約數量統計。
+* **資料庫：** 具備完整的正規化設計（符合 3NF），確保資料一致性與完整性。
 
 ## 🗄️ 資料庫設計 (Database Design)
 本系統的核心在於穩健的資料庫架構。以下為本系統的實體關聯圖 (ER Diagram)：
 
-<img width="1321" height="897" alt="螢幕擷取畫面 2026-03-17 041507" src="https://github.com/user-attachments/assets/db883f35-5730-4e3f-8041-a27894fb9808" />
+<img width="1321" height="897" alt="螢幕擷取畫面 2026-03-17 041507" src="https://github.com/user-attachments/assets/d2c5afdf-d899-4b01-ac50-3556e535970a" />
 
-主要資料表包含：
-* `Users`: 儲存使用者帳號與加密密碼。
-* `Patients`: 儲存病患基本資料。
-* `Doctors`: 儲存醫師資訊與科別。
-* `Appointments`: 紀錄預約時間、狀態與對應的醫病關聯。
+
+系統透過角色區分機制（Role-based），精簡實體並提升查詢效率，主要由以下四張資料表構成：
+* `users` (使用者): 儲存所有使用者（包含病患、醫師與管理員）的基本資料與登入權限，透過 `role` 欄位區分身分。
+* `doctors` (醫師資訊): 儲存醫師專屬資訊（如科別 `specialty` 與簡介 `bio`），並透過 Foreign Key 與 `users` 表關聯。
+* `schedules` (排班表): 記錄醫師的排班日期、開始與結束時間，以及可預約狀態。
+* `appointments` (預約資料): 紀錄實際的預約時間與狀態，並作為橋樑串連病患 (對應 `users`)、醫師 (`doctors`) 與排班 (`schedules`)。
 
 ## 📂 專案架構
 ```text
@@ -39,8 +40,8 @@ medical-appointment-system/
 │   └── ... (其他前後端程式碼)
 │
 ├── database/                           # 資料庫建置檔
-│   ├── medical_appointment_system.sql  # 完整版資料庫 (含結構與測試資料，請匯入此檔)
-│   └── 建立資料庫.sql                   # 備用檔 (僅含資料表結構，預防誤刪用)
+│   ├── medical_appointment_system.sql  # 🌟 完整版資料庫 (含結構與測試資料，請匯入此檔)
+│   └── 建立資料庫.sql                  # 備用檔 (僅含資料表結構，預防誤刪用)
 │
 └── docs/                               # 專案文件
     ├── presentation.pdf                # 專題上台簡報
@@ -77,6 +78,8 @@ medical-appointment-system/
   * **A:** 這通常發生在電腦同時安裝了 XAMPP 的 MySQL 與官方獨立版 MySQL 時。解決方法是開啟 XAMPP 的 `my.ini` 設定檔，將預設的 Port `3306` 更改為 `3307`（或其他未被佔用的 Port），重新啟動 XAMPP 的 MySQL 服務即可解決衝突。
 
 ## 📸 系統畫面展示
-![登入畫面截圖]
-![預約掛號畫面截圖]
-![後台管理畫面截圖]
+![登入畫面截圖]<img width="1920" height="1020" alt="螢幕擷取畫面 2026-03-17 042541" src="https://github.com/user-attachments/assets/61a4b35c-58d0-4b4f-a9e3-94ec2130b1a2" />
+
+![排班查詢與預約畫面截圖]<img width="1920" height="1020" alt="螢幕擷取畫面 2026-03-17 042553" src="https://github.com/user-attachments/assets/03b8fa3a-19cf-478e-badf-2d3360da7228" />
+
+![資料庫測試查詢結果截圖]<img width="1920" height="1020" alt="螢幕擷取畫面 2026-03-17 042626" src="https://github.com/user-attachments/assets/b952081c-15b0-4c0a-8f85-536692add4a3" />
