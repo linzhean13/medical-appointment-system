@@ -87,7 +87,7 @@ medical-appointment-system/
 
 | 功能特色 | 畫面展示 |
 | :--- | :--- |
-| **1. 系統登入 (需登入)**<br><br>病患專屬的登入介面，驗證身分後方可使用掛號等核心功能。<br><br>*測試帳號：user25@example.com*<br>*密碼：pass123* | <img src="https://github.com/user-attachments/assets/e89af774-69b0-4ef8-aa10-462646372c3f" width="500"> |
+| **1. 系統登入 (需登入)**<br><br>病患專屬的登入介面，驗證身分後方可使用掛號等核心功能。<br><br>*測試帳號：user25@example.com*<br>*密碼：pass123* | <img src="https://github.com/user-attachments/assets/e89af774-69b0-4ef8-aa10-462646372c3f" width="600"> |
 | **2. 查詢醫師班表 (免登入開放功能)**<br><br>任何人皆可於系統首頁直接瀏覽各醫師的門診時間與當前預約狀態，方便快速查看空檔。 | <img src="https://github.com/user-attachments/assets/549cc943-db38-47b1-8351-3fcc4c7b41e5" width="500"> |
 | **3. 查詢預約狀態 (登入後預設首頁)**<br><br>病患登入後會自動跳轉至此頁面，可即時追蹤所有掛號紀錄的處理狀態（如 pending, confirmed），並可執行取消預約。 | <img src="https://github.com/user-attachments/assets/c8030278-2804-46d1-8290-30a8e3ee38c2" width="500"> |
 | **4. 線上預約功能**<br><br>系統的核心功能。病患可在此選單中，選擇指定的醫師與時段進行線上掛號。 | <img src="https://github.com/user-attachments/assets/52325a67-0cd9-4b6a-99db-40dd3473a49b" width="500"> |
