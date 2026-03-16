@@ -77,9 +77,41 @@ medical-appointment-system/
 * **Q: XAMPP 的 MySQL 無法啟動，顯示 Port 3306 發生衝突 (Collision)？**
   * **A:** 這通常發生在電腦同時安裝了 XAMPP 的 MySQL 與官方獨立版 MySQL 時。解決方法是開啟 XAMPP 的 `my.ini` 設定檔，將預設的 Port `3306` 更改為 `3307`（或其他未被佔用的 Port），重新啟動 XAMPP 的 MySQL 服務即可解決衝突。
 
-## 📸 系統畫面展示
-![登入畫面截圖]<img width="1920" height="1020" alt="螢幕擷取畫面 2026-03-17 042541" src="https://github.com/user-attachments/assets/61a4b35c-58d0-4b4f-a9e3-94ec2130b1a2" />
+## 📸 系統畫面展示 (Screenshots)
 
-![排班查詢與預約畫面截圖]<img width="1920" height="1020" alt="螢幕擷取畫面 2026-03-17 042553" src="https://github.com/user-attachments/assets/03b8fa3a-19cf-478e-badf-2d3360da7228" />
+### 🔑 共通功能
+> 系統具備角色權限驗證機制，依據登入身分自動導向對應的專屬後台。
 
-![資料庫測試查詢結果截圖]<img width="1920" height="1020" alt="螢幕擷取畫面 2026-03-17 042626" src="https://github.com/user-attachments/assets/b952081c-15b0-4c0a-8f85-536692add4a3" />
+#### 系統登入畫面
+![系統登入]<img width="1920" height="1020" alt="登入頁面" src="https://github.com/user-attachments/assets/e89af774-69b0-4ef8-aa10-462646372c3f" />
+
+---
+
+### 👤 一般使用者端 (Patient Interface)
+
+#### 1. 查詢醫師班表 (免登入開放功能)
+> 任何人皆可於系統首頁直接瀏覽各醫師的門診時間與當前預約狀態。
+![查詢醫師班表]<img width="1920" height="1020" alt="一般登入-查詢醫師班表" src="https://github.com/user-attachments/assets/549cc943-db38-47b1-8351-3fcc4c7b41e5" />
+
+#### 2. 查詢預約狀態 (登入後預設首頁)
+> 病患登入後會自動跳轉至此頁面，可即時追蹤所有掛號紀錄的處理狀態（如 pending, confirmed），並可執行取消預約。
+![預約狀態與取消]<img width="1920" height="1020" alt="一般登入畫面" src="https://github.com/user-attachments/assets/c8030278-2804-46d1-8290-30a8e3ee38c2" />
+
+#### 3. 線上預約功能 (需登入)
+> 驗證身分後方可使用的核心功能，病患可在此選擇指定的醫師與時段進行掛號。
+![線上預約]<img width="1920" height="1020" alt="一般登入-線上預約" src="https://github.com/user-attachments/assets/52325a67-0cd9-4b6a-99db-40dd3473a49b" />
+---
+
+### 👨‍⚕️ 醫師端功能 (Doctor Dashboard)
+
+#### 1. 醫師專屬後台首頁
+> 醫師登入後自動進入專屬管理介面，顯示個人基本資料與專屬導覽列。
+![醫師後台首頁]<img width="1920" height="1020" alt="醫師-登入畫面" src="https://github.com/user-attachments/assets/73fc28a8-92d6-4039-9c26-b3e74952336e" />
+
+#### 2. 查詢預約人數
+> 醫師可指定特定日期與門診時段，即時掌握該診次的總預約病患人數，利於看診前準備。
+![查詢預約人數]<img width="1920" height="1020" alt="醫師-查詢預約人數" src="https://github.com/user-attachments/assets/6f99b118-bf2e-4096-aaf4-8009bde4116f" />
+
+#### 3. 修改班表與時段管理
+> 賦予醫師彈性排班的權限，可在此新增、修改或關閉自己的可預約時間，系統將即時同步至前端班表。
+![修改班表]<img width="1920" height="1020" alt="醫師-修改班表" src="https://github.com/user-attachments/assets/73c55a63-d661-4953-908b-a23e3abfd462" />
