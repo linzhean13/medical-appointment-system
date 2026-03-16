@@ -121,6 +121,16 @@ medical-appointment-system/
   </tr>
 </table>
 
+### 👤 一般使用者端 (Patient Interface)
+
+| 功能特色 | 畫面展示 |
+| :--- | :--- |
+| **1. 系統登入 (需登入)**<br><br>病患專屬的登入介面，驗證身分後方可使用掛號等核心功能。<br><br>💡 *測試帳號：user25@example.com*<br>🔑 *密碼：pass123* | <img src="https://github.com/user-attachments/assets/c8030278-2804-46d1-8290-30a8e3ee38c2" width="500"> |
+| **2. 查詢醫師班表 (免登入開放功能)**<br><br>任何人皆可於系統首頁直接瀏覽各醫師的門診時間與當前預約狀態，方便快速查看空檔。 | <img src="https://github.com/user-attachments/assets/c8030278-2804-46d1-8290-30a8e3ee38c2" width="500"> |
+| **3. 查詢預約狀態 (登入後預設首頁)**<br><br>病患登入後會自動跳轉至此頁面，可即時追蹤所有掛號紀錄的處理狀態（如 pending, confirmed），並可執行取消預約。 | <img src="https://github.com/user-attachments/assets/c8030278-2804-46d1-8290-30a8e3ee38c2" width="500"> |
+| **4. 線上預約功能**<br><br>系統的核心功能。病患可在此選單中，選擇指定的醫師與時段進行線上掛號。 | <img src="https://github.com/user-attachments/assets/c8030278-2804-46d1-8290-30a8e3ee38c2" width="500"> |
+
+
 ### 👨‍⚕️ 醫師端功能 (Doctor Dashboard)
 
 #### 1. 醫師專屬後台首頁
