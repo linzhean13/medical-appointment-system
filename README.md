@@ -118,6 +118,22 @@ medical-appointment-system/
       </td>
   </tr>
 </table>
+<table>
+  <tr>
+    <td width="33%">
+      <b>1. 查詢醫師班表</b><br>
+      <img src="https://github.com/user-attachments/assets/549cc943-db38-47b1-8351-3fcc4c7b41e5" width="100%">
+    </td>
+    <td width="33%">
+      <b>2. 查詢預約狀態</b><br>
+      <img src="https://github.com/user-attachments/assets/c8030278-2804-46d1-8290-30a8e3ee38c2" width="100%">
+    </td>
+    <td width="33%">
+      <b>3. 線上預約功能</b><br>
+      <img src="https://github.com/user-attachments/assets/52325a67-0cd9-4b6a-99db-40dd3473a49b" width="100%">
+    </td>
+  </tr>
+</table>
 
 ### 👨‍⚕️ 醫師端功能 (Doctor Dashboard)
 
