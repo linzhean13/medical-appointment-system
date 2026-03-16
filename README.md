@@ -21,7 +21,6 @@
 ## 🗄️ 資料庫設計 (Database Design)
 本系統的核心在於穩健的資料庫架構。以下為本系統的實體關聯圖 (ER Diagram)：
 
-![在此放置 ER 圖截圖](你的圖片路徑)
 <img width="1321" height="897" alt="螢幕擷取畫面 2026-03-17 041507" src="https://github.com/user-attachments/assets/db883f35-5730-4e3f-8041-a27894fb9808" />
 
 主要資料表包含：
@@ -40,8 +39,8 @@ medical-appointment-system/
 │   └── ... (其他前後端程式碼)
 │
 ├── database/                           # 資料庫建置檔
-│   ├── medical_appointment_system.sql  # 🌟 完整版資料庫 (含結構與測試資料，請匯入此檔)
-│   └── 建立資料庫.sql                  # 備用檔 (僅含資料表結構，預防誤刪用)
+│   ├── medical_appointment_system.sql  # 完整版資料庫 (含結構與測試資料，請匯入此檔)
+│   └── 建立資料庫.sql                   # 備用檔 (僅含資料表結構，預防誤刪用)
 │
 └── docs/                               # 專案文件
     ├── presentation.pdf                # 專題上台簡報
