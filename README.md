@@ -34,8 +34,12 @@ medical-appointment-system/
 │
 ├── medical_appointment_system/         # 系統原始碼 (PHP, HTML, CSS)
 │   ├── db.php                          # 資料庫連線設定檔
-│   ├── index.html                      # 系統首頁
-│   └── ... (其他前後端程式碼)
+│   ├── index.html                      # 系統首頁 (一般使用者入口)
+│   ├── login.html, login.php           # 登入介面與後端身分驗證邏輯
+│   ├── style.css                       # 全域共用樣式表
+│   ├── doctor-*.html                   # 醫師端前端介面 (包含 dashboard, schedule, edit 等)
+│   ├── appointment-*.html              # 病患端前端介面 (包含 status, check 等)
+│   └── *.php                           # 負責與資料庫互動的 API 邏輯 (如 get_appointments.php, submit_appointment.php 等)
 │
 ├── database/                           # 資料庫建置檔
 │   ├── medical_appointment_system.sql  # 完整版資料庫 (含結構與測試資料，請匯入此檔)
