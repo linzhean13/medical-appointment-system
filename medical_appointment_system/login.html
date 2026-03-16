@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>醫療預約系統</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <h1>健康醫療預約平台</h1>
+      <nav id="navMenu">
+        <!-- 導覽內容會透過 JavaScript 動態插入 -->
+      </nav>
+
+    </header>
+    <main>
+      <form id="loginForm">
+        <label>帳號（Email）：<input type="email" id="email" required /></label>
+        <label>密碼：<input type="password" id="password" required /></label>
+        <button type="submit">登入</button>
+      </form>
+    </main>
+    <footer>
+      <p>聯絡電話：02-12345678 | 地址：台北市某某路 88 號</p>
+    </footer>
+    <script>
+        const user_id = localStorage.getItem('user_id');
+        const username = localStorage.getItem('username');
+        const navMenu = document.getElementById('navMenu');
+
+        // 動態產生導覽列內容
+        if (user_id) {
+          navMenu.innerHTML = `
+            <a href="index.html">線上預約</a>
+            <a href="appointment-status.html">查詢預約</a>
+            <a href="doctor-schedule.html">查詢醫師班表</a>
+            <a href="#" onclick="logout()">登出</a>
+          `;
+        } else {
+          navMenu.innerHTML = `
+            <a href="login.html">登入查詢預約</a>
+            <a href="index.html">線上預約</a>
+            <a href="doctor-schedule.html">查詢醫師班表</a>
+          `;
+        }
+
+      document.getElementById('loginForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        fetch('login.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+        })
+          .then(res => {
+            if (!res.ok) throw new Error('登入失敗');
+            return res.json();
+          })
+          .then(user => {
+            localStorage.setItem('user_id', user.user_id);
+            localStorage.setItem('username', user.name);
+            localStorage.setItem('role', user.role);
+
+            if (user.role === 'doctor') {
+              window.location.href = 'doctor-dashboard.html';
+            } else {
+              window.location.href = 'appointment-status.html';
+            }
+          })
+          .catch(err => {
+            alert('登入失敗：請確認帳密');
+          });
+      });
+      function logout() {
+        localStorage.clear(); // 清除登入資訊
+        alert('您已登出');
+        window.location.href = 'login.html';
+      }
+
+    </script>
+  </div>
+</body>
+</html>

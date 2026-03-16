@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>查詢預約人數</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <h1>醫師後台管理</h1>
+      <nav>
+        <a href="doctor-dashboard.html">回首頁</a>
+        <a href="edit-schedule.html">修改班表</a>
+        <a href="check-appointments.html">查詢預約人數</a>
+        <a href="#" onclick="logout()">登出</a>
+      </nav>
+    </header>
+
+    <main>
+      <form id="checkForm">
+        <label>選擇日期：<input type="date" id="date" required /></label>
+        <label>選擇時段：
+          <select id="time" required>
+            <option value="">請先選擇日期</option>
+          </select>
+        </label>
+        <button type="submit">查詢</button>
+      </form>
+      <p id="result"></p>
+    </main>
+
+    <footer>
+      <p>聯絡電話：02-12345678 | 地址：台北市某某路 88 號</p>
+    </footer>
+
+    <script>
+      const doctor_id = localStorage.getItem('user_id');
+      if (!doctor_id || localStorage.getItem('role') !== 'doctor') {
+        alert("請以醫師身份登入");
+        window.location.href = "login.html";
+      }
+
+      const dateInput = document.getElementById('date');
+      const timeSelect = document.getElementById('time');
+      const result = document.getElementById('result');
+
+      dateInput.addEventListener('change', () => {
+        const date = dateInput.value;
+        if (!date) return;
+
+        timeSelect.innerHTML = '<option>載入中...</option>';
+
+        fetch(`get_doctor_schedule.php?user_id=${doctor_id}&date=${date}`)
+          .then(res => res.json())
+          .then(times => {
+            timeSelect.innerHTML = '';
+            if (times.length === 0) {
+              timeSelect.innerHTML = '<option>當日無班表</option>';
+            } else {
+              times.forEach(t => {
+                const opt = document.createElement('option');
+                opt.value = t.time;
+                opt.textContent = `${t.time.slice(0, 5)}（${t.is_available ? '可預約' : '不可預約'}）`;
+                timeSelect.appendChild(opt);
+              });
+            }
+          })
+          .catch(() => {
+            timeSelect.innerHTML = '<option>時段載入失敗</option>';
+          });
+      });
+
+      document.getElementById('checkForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const date = dateInput.value;
+        const time = timeSelect.value;
+        if (!date || !time) {
+          result.innerText = '請選擇完整日期與時段';
+          return;
+        }
+
+        fetch(`count_appointments.php?doctor_id=${doctor_id}&date=${date}&time=${time}`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.count !== undefined) {
+              result.innerText = `共有 ${data.count} 位病患預約。`;
+            } else {
+              result.innerText = '查詢失敗';
+            }
+          })
+          .catch(() => {
+            result.innerText = '查詢失敗';
+          });
+      });
+
+      function logout() {
+        localStorage.clear();
+        alert("您已登出");
+        window.location.href = "login.html";
+      }
+    </script>
+  </div>
+</body>
+</html>

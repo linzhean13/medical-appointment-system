@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>醫師班表查詢</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <h1>健康醫療預約平台</h1>
+      <nav id="navMenu"></nav>
+    </header>
+    <main>
+      <h2>查詢醫師班表</h2>
+      <form id="scheduleForm">
+        <label>醫師姓名：
+          <select id="doctorSelect" required></select>
+        </label>
+        <label>日期：<input type="date" id="schedule_date" required /></label>
+        <button type="submit">查詢</button>
+      </form>
+      <div id="selectedDate" style="margin-top: 1em; font-weight: bold;"></div>
+      <table>
+        <thead>
+          <tr>
+            <th>開始時間</th>
+            <th>結束時間</th>
+            <th>是否可預約</th>
+          </tr>
+        </thead>
+        <tbody id="scheduleResult"></tbody>
+      </table>
+    </main>
+    <footer>
+      <p>聯絡電話：02-12345678 | 地址：台北市某某路 88 號</p>
+    </footer>
+
+    <script>
+      const user_id = localStorage.getItem('user_id');
+      const navMenu = document.getElementById('navMenu');
+
+      // 導覽列內容
+      if (user_id) {
+        navMenu.innerHTML = `
+          <a href="index.html">線上預約</a>
+          <a href="appointment-status.html">查詢預約</a>
+          <a href="doctor-schedule.html">查詢醫師班表</a>
+          <a href="#" onclick="logout()">登出</a>
+        `;
+      } else {
+        navMenu.innerHTML = `
+          <a href="login.html">登入查詢預約</a>
+          <a href="index.html">線上預約</a>
+          <a href="doctor-schedule.html">查詢醫師班表</a>
+        `;
+      }
+
+      const doctorSelect = document.getElementById('doctorSelect');
+      const scheduleForm = document.getElementById('scheduleForm');
+      const result = document.getElementById('scheduleResult');
+
+      // ✅ 載入醫師下拉選單
+      fetch('get_doctors.php')
+        .then(res => res.json())
+        .then(data => {
+          data.forEach(doc => {
+            const opt = document.createElement('option');
+            opt.value = doc.doctor_id;
+            opt.textContent = doc.doctor_name;
+            doctorSelect.appendChild(opt);
+          });
+        });
+
+      // ✅ 查詢排班並顯示表格
+      scheduleForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const doctorId = doctorSelect.value;
+        const date = document.getElementById('schedule_date').value;
+
+        fetch(`get_schedule.php?doctor_id=${doctorId}&date=${date}`)
+          .then(res => res.json())
+          .then(data => {
+            // 顯示查詢日期
+            const displayDate = new Date(date).toLocaleDateString('zh-Hant', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit'
+            });
+            document.getElementById('selectedDate').innerText = `查詢日期：${displayDate}`;
+            if (data.length === 0) {
+              result.innerHTML = '<tr><td colspan="3">無排班紀錄。</td></tr>';
+              return;
+            }
+
+            let html = '';
+            data.forEach(s => {
+              html += `
+                <tr>
+                  <td>${s.start_time}</td>
+                  <td>${s.end_time}</td>
+                  <td>${s.is_available == 1 ? '✅' : '❌'}</td>
+                </tr>
+              `;
+            });
+
+            result.innerHTML = html;
+          });
+      });
+
+      function logout() {
+        localStorage.clear();
+        alert('您已登出');
+        window.location.href = 'login.html';
+      }
+    </script>
+  </div>
+</body>
+</html>

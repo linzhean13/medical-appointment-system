@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>預約狀態</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <h1>健康醫療預約平台</h1>
+      <nav id="navMenu"></nav>
+    </header>
+    <main>
+      <h2>預約狀態</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>醫師</th>
+            <th>科別</th>
+            <th>時間</th>
+            <th>狀態</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="result"></tbody>
+      </table>
+    </main>
+    <footer>
+      <p>聯絡電話：02-12345678 | 地址：台北市某某路 88 號</p>
+    </footer>
+    <script>
+      const resultBody = document.getElementById('result');
+      const user_id = localStorage.getItem('user_id');
+      const navMenu = document.getElementById('navMenu');
+
+      if (user_id) {
+        navMenu.innerHTML = `
+          <a href="index.html">線上預約</a>
+          <a href="appointment-status.html">查詢預約</a>
+          <a href="doctor-schedule.html">查詢醫師班表</a>
+          <a href="#" onclick="logout()">登出</a>
+        `;
+      } else {
+        navMenu.innerHTML = `
+          <a href="login.html">登入查詢預約</a>
+          <a href="index.html">線上預約</a>
+          <a href="doctor-schedule.html">查詢醫師班表</a>
+        `;
+      }
+
+      if (!user_id) {
+        alert('請先登入');
+        window.location.href = 'login.html';
+      }
+
+      fetch(`get_appointments.php?user_id=${user_id}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.length === 0) {
+            resultBody.innerHTML = '<tr><td colspan="5">目前無預約紀錄。</td></tr>';
+            return;
+          }
+
+          let html = '';
+          data.forEach(appt => {
+            const date = new Date(appt.appointment_time);
+            const status = appt.status;
+            let action = '';
+            if (status === 'confirmed' || status === 'pending') {
+              action = `<button onclick="cancelAppointment(${appt.appointment_id})">取消</button>`;
+            } else if (status === 'canceled') {
+              action = `<button onclick="window.location.href='index.html'">重新預約</button>`;
+            }
+
+            html += `
+              <tr>
+                <td>${appt.doctor_name}</td>
+                <td>${appt.specialty}</td>
+                <td>${date.toLocaleString()}</td>
+                <td>${status}</td>
+                <td>${action}</td>
+              </tr>
+            `;
+          });
+          resultBody.innerHTML = html;
+        });
+
+      function cancelAppointment(id) {
+        if (!confirm('確定要取消這筆預約嗎？')) return;
+        fetch('cancel_appointment.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `appointment_id=${id}`
+        })
+          .then(res => res.text())
+          .then(msg => {
+            alert(msg);
+            location.reload();
+          });
+      }
+
+      function logout() {
+        localStorage.clear();
+        alert('您已登出');
+        window.location.href = 'login.html';
+      }
+    </script>
+  </div>
+</body>
+</html>

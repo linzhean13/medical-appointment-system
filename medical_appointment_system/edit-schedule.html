@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>醫師後台 - 醫療預約系統</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <h1>醫師後台管理</h1>
+      <nav>
+        <a href="doctor-dashboard.html">回首頁</a>
+        <a href="edit-schedule.html">修改班表</a>
+        <a href="check-appointments.html">查詢預約人數</a>
+        <a href="#" onclick="logout()">登出</a>
+      </nav>
+    </header>
+
+    <main>
+      <h2>修改班表</h2>
+      <form id="scheduleForm">
+        <label>選擇日期：<input type="date" id="date" required /></label>
+        <label>選擇時段：
+          <select id="time" required>
+            <option value="">請先選擇日期</option>
+          </select>
+        </label>
+        <button type="submit">設定為不可預約</button>
+      </form>
+    </main>
+
+    <footer>
+      <p>聯絡電話：02-12345678 | 地址：台北市某某路 88 號</p>
+    </footer>
+
+    <script>
+      const user_id = localStorage.getItem('user_id');
+      if (!user_id || localStorage.getItem('role') !== 'doctor') {
+        alert('請以醫師身份登入');
+        window.location.href = 'login.html';
+      }
+
+      const dateInput = document.getElementById('date');
+      const timeSelect = document.getElementById('time');
+
+      // 根據日期載入該醫師當日所有時段
+      dateInput.addEventListener('change', () => {
+        const date = dateInput.value;
+        if (!date) return;
+
+        timeSelect.innerHTML = '<option>載入中...</option>';
+
+        fetch(`get_doctor_schedule.php?user_id=${user_id}&date=${date}`)
+          .then(res => res.json())
+          .then(times => {
+            timeSelect.innerHTML = '';
+            if (times.length === 0) {
+              timeSelect.innerHTML = '<option>當日無班表</option>';
+            } else {
+              times.forEach(t => {
+                const opt = document.createElement('option');
+                opt.value = t.time;
+                opt.textContent = `${t.time.slice(0, 5)}（${t.is_available ? '可預約' : '不可預約'}）`;
+                timeSelect.appendChild(opt);
+              });
+            }
+          })
+          .catch(() => {
+            timeSelect.innerHTML = '<option>載入失敗</option>';
+          });
+      });
+
+      // 提交「設為不可預約」
+      document.getElementById('scheduleForm').addEventListener('submit', e => {
+        e.preventDefault();
+        const date = dateInput.value;
+        const time = timeSelect.value;
+        if (!date || !time) {
+          alert('請選擇完整日期與時段');
+          return;
+        }
+
+        fetch('set_unavailable.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ doctor_id: user_id, date, time })
+        })
+          .then(res => res.text())
+          .then(msg => alert(msg))
+          .catch(() => alert('更新失敗'));
+      });
+
+      function logout() {
+        localStorage.clear();
+        alert('您已登出');
+        window.location.href = 'login.html';
+      }
+    </script>
+  </div>
+</body>
+</html>

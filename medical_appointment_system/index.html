@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>醫療預約系統</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <h1>健康醫療預約平台</h1>
+      <nav id="navMenu"></nav>
+    </header>
+
+    <main>
+      <section>
+        <h2>線上預約</h2>
+        <form id="appointmentForm">
+          <label>姓名: <input type="text" id="name" required /></label>
+          <label>電話: <input type="tel" id="phone" required /></label>
+          <label>
+            科別:
+            <select id="department" required>
+              <option value="">請選擇科別</option>
+              <option value="內科">內科</option>
+              <option value="外科">外科</option>
+              <option value="牙科">牙科</option>
+            </select>
+          </label>
+          <label>
+            醫師：
+            <select id="doctorSelect" required>
+              <option value="">請先選擇科別</option>
+            </select>
+          </label>
+          <label>預約日期: <input type="date" id="date" required /></label>
+          <label>
+            時段:
+            <select id="time" required>
+              <option value="">請先選擇醫師與日期</option>
+            </select>
+          </label>
+          <button type="submit">送出預約</button>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <p>聯絡電話：02-12345678 | 地址：台北市某某路 88 號</p>
+    </footer>
+
+    <script>
+      const user_id = localStorage.getItem('user_id');
+      if (!user_id) {
+        alert('請先登入才能使用本系統功能');
+        window.location.href = 'login.html';
+      }
+
+      const navMenu = document.getElementById('navMenu');
+      navMenu.innerHTML = `
+        <a href="index.html">線上預約</a>
+        <a href="appointment-status.html">查詢預約</a>
+        <a href="doctor-schedule.html">查詢醫師班表</a>
+        <a href="#" onclick="logout()">登出</a>
+      `;
+
+      function logout() {
+        localStorage.clear();
+        alert('您已登出');
+        window.location.href = 'login.html';
+      }
+
+      // 填入使用者資料
+      fetch(`get_user_profile.php?user_id=${user_id}`)
+        .then(res => res.json())
+        .then(user => {
+          document.getElementById('name').value = user.name;
+          document.getElementById('phone').value = user.phone;
+          document.getElementById('name').readOnly = true;
+          document.getElementById('phone').readOnly = true;
+        });
+
+      const deptSelect = document.getElementById('department');
+      const doctorSelect = document.getElementById('doctorSelect');
+      const dateInput = document.getElementById('date');
+      const timeSelect = document.getElementById('time');
+
+      // 選擇科別 → 載入該科別的醫師
+      deptSelect.addEventListener('change', () => {
+        const specialty = deptSelect.value;
+        doctorSelect.innerHTML = '<option value="">載入中...</option>';
+        fetch(`get_doctors_by_specialty.php?specialty=${specialty}`)
+          .then(res => res.json())
+          .then(data => {
+            doctorSelect.innerHTML = '<option value="">請選擇醫師</option>';
+            data.forEach(doc => {
+              const opt = document.createElement('option');
+              opt.value = doc.doctor_id;
+              opt.textContent = doc.doctor_name; // ← 注意這裡使用 doctor_name
+              doctorSelect.appendChild(opt);
+            });
+            timeSelect.innerHTML = '<option value="">請先選擇醫師與日期</option>';
+          })
+          .catch(() => {
+            doctorSelect.innerHTML = '<option value="">載入失敗</option>';
+          });
+      });
+
+      // 選擇醫師或日期 → 載入可預約時段
+      doctorSelect.addEventListener('change', updateAvailableTimes);
+      dateInput.addEventListener('change', updateAvailableTimes);
+
+      function updateAvailableTimes() {
+        const doctorId = doctorSelect.value;
+        const date = dateInput.value;
+        if (!doctorId || !date) return;
+
+        timeSelect.innerHTML = '<option value="">載入中...</option>';
+        fetch(`get_available_times.php?doctor_id=${doctorId}&date=${date}`)
+          .then(res => res.json())
+          .then(data => {
+            timeSelect.innerHTML = '';
+            if (!Array.isArray(data) || data.length === 0) {
+              timeSelect.innerHTML = '<option value="">無可預約時段</option>';
+              return;
+            }
+
+            // 顯示時段（去秒）
+            data.forEach(time => {
+              const opt = document.createElement('option');
+              opt.value = time;
+              opt.textContent = time.slice(0, 5); // 顯示為 HH:MM
+              timeSelect.appendChild(opt);
+            });
+          })
+          .catch(() => {
+            timeSelect.innerHTML = '<option value="">時段載入錯誤</option>';
+          });
+      }
+
+      // 表單送出
+      const form = document.getElementById('appointmentForm');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        const doctorId = doctorSelect.value;
+        const date = dateInput.value;
+        const time = timeSelect.value;
+
+        if (!name || !phone || !doctorId || !date || !time) {
+          alert('請填寫完整預約資料！');
+          return;
+        }
+
+        const appointmentTime = `${date} ${time}:00`;
+
+        fetch('submit_appointment.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `user_id=${user_id}&doctor_id=${doctorId}&date=${date}&time=${time}`
+        })
+        .then(res => res.text())
+        .then(msg => {
+          alert(msg);
+          form.reset();
+          doctorSelect.innerHTML = '<option value="">請先選擇科別</option>';
+          timeSelect.innerHTML = '<option value="">請先選擇醫師與日期</option>';
+        });
+      });
+    </script>
+  </div>
+</body>
+</html>
