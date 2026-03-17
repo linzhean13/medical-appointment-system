@@ -1,6 +1,8 @@
 # 🏥 醫療預約系統 (Medical Appointment System)
 
 > 這是大學資料庫專題作品，旨在建立一個高效、易用的醫療預約與管理系統。
+>
+> 🎥 **系統實際操作展示：** [點擊觀看 Demo 影片](https://drive.google.com/file/d/1ucOWfk9kDfsf2TVapyZe8J_Vfbj7iiff/view?usp=drive_link)
 
 ## 📝 專案簡介
 本專案開發了一個醫療預約系統，提供病患線上掛號、查詢看診進度，以及協助診所端進行排班與病歷管理的功能。主要展示了**關聯式資料庫設計 (RDBMS)**、**SQL 語法優化** 以及前後端系統整合的能力。
