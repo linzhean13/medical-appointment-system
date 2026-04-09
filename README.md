@@ -149,7 +149,7 @@ medical-appointment-system/
     <td valign="top">
       <b>1. 系統登入 (醫師端)</b><br><br>
       醫師專屬的登入介面，系統會依據權限自動導向醫師後台。<br><br>
-      💡 <i>帳號：user02@example.com</i><br>
+      💡 <i>帳號：user2@example.com</i><br>
       🔑 <i>密碼：pass123</i>
     </td>
     <td valign="top">
